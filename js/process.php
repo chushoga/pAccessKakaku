@@ -7,7 +7,8 @@ require_once '../master/dbconnect.php'; // CONNECT TO THE DATABASE
 /* ------------------------ */
 
 function LoadAll($conn, $FILEMAKER_IMAGE_URL){
-	$select = "SELECT * FROM main WHERE maker LIKE '%KALDEWEI%'";
+        
+	$select = "SELECT * FROM main WHERE maker LIKE '%FSB%'";
 	$result = mysqli_query($conn, $select);
 
 	$rows = array();
@@ -16,11 +17,40 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 		// output now
 		while($row = mysqli_fetch_assoc($result)){
 			
+            // Set up the images
 			if($row["thumb"] == ""){
 				$thumb = "";
 			} else {
 				$thumb = "background-image: url(".$FILEMAKER_IMAGE_URL.$row["thumb"].")";
 			}
+            
+            // ------------------------------------------------------------------------------
+            // get the bairitsu data
+            $currentPrice = 0;
+            $productId = $row["productId"];
+            $sth = mysqli_query($conn, "SELECT 
+                sp_plcurrent.plCurrent,
+                sp_plcurrent.sp_disc_rate_id,
+                sp_disc_rate.rate,
+                sp_disc_rate.percent,
+                sp_disc_rate.discount,
+                sp_disc_rate.currency,
+                sp_disc_rate.colorId,
+                sp_disc_rate.year,
+                sp_disc_rate.memo
+             FROM sp_plcurrent
+             INNER JOIN sp_disc_rate ON sp_plcurrent.sp_disc_rate_id = sp_disc_rate.id
+             WHERE 
+                sp_plcurrent.productId = '$productId'
+             ");
+            
+            if(mysqli_num_rows($sth) > 0) {
+                // output now
+                while($rowSth = mysqli_fetch_assoc($sth)){
+                    $currentPrice = $rowSth['plCurrent'];
+                }
+            }
+            // ------------------------------------------------------------------------------
 			
 			$rows[] = array(
 				"id" => $row["id"],
@@ -51,7 +81,8 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 				"expectedImportDate" => $row["expectedImportDate"],
 				"orderAmount" => $row["orderAmount"],
 				"created" => $row["created"],
-				"modified" => $row["modified"]
+				"modified" => $row["modified"],
+                "sp_plCurrent" => $currentPrice
 			);
 		}
 		echo json_encode($rows);

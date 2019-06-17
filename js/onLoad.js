@@ -9,8 +9,36 @@ $(window).on("load", function(){
 	function OverlayFadeIn(){
 		$("#overlay").fadeIn(1000);
 	}
-	
-	// create a row of data
+    
+    function CalculateBairitsu(){
+         
+    }
+    $("body").on("change keyup click, focus", ".newPrice", function(){
+        var oldPrice = $(this).closest(".dataInputs").find(".oldPrice").val();
+        var newPrice = $(this).val();
+        var bairitsu = ((newPrice - oldPrice)/oldPrice) * 100;
+        //$(this).css({"background":"crimson"})
+        
+        // check the percentage differnce
+        if(bairitsu >= 5){
+            $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "orange", "color": "#FFFFFF"});
+        } else if(bairitsu < 0){
+            $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "crimson", "color" : "#FFFFFF"});
+        } else if(bairitsu == 0){
+            $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "#3e3e3e", "color" : "#FFFFFF"});
+        } else {
+            $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "#008800", "color" : "#FFFFFF"});
+        }
+        
+        if(oldPrice <= 0 || newPrice <= 0){
+            $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "#FFFFFF", "color": "#8e8e8e"});
+            $(this).closest(".dataInputs").find(".bairitsu").val("-");
+        } else {
+            $(this).closest(".dataInputs").find(".bairitsu").val(bairitsu.toFixed(2) + "%");
+        }
+    });
+    
+	// create a row of data (called from LoadAll)
 	function NewRow(data){
 
 		var main = $("#content");
@@ -28,6 +56,8 @@ $(window).on("load", function(){
 			} else {
 				content += "<div class='rowImage' style='"+data[i].thumb+"'></div>";
 			}
+            
+            content += "---" + data[i].sp_plCurrent;
 
 			// old price
 			content += "<input type='text' value='0123.45'>";
@@ -45,8 +75,7 @@ $(window).on("load", function(){
 		OverlayFadeOut();
 	}
 	
-	
-	
+    // load All data
 	function LoadAll(){
 		$.ajax({
 			type: "post",
@@ -61,8 +90,20 @@ $(window).on("load", function(){
 			}
 		});
 	}
-	LoadAll();
 	
+    LoadAll();
+	
+    // create outline of system
+    // dbconnect.php
+    // config.php
+    // onLoad.js
+    // process.js
+    // start basic CSS
+    // get fonts working
+    // stress test system on high load
+    // create framework for single item.
+    // navi system
+    
 	// message system
 	// load list
 	// save system to save on every entry
