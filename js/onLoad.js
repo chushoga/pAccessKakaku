@@ -11,16 +11,15 @@ $(window).on("load", function(){
 	}
     
     function CalculateBairitsu(){
-         
-    }
-    $("body").on("change keyup click, focus", ".newPrice", function(){
         var oldPrice = $(this).closest(".dataInputs").find(".oldPrice").val();
         var newPrice = $(this).val();
         var bairitsu = ((newPrice - oldPrice)/oldPrice) * 100;
+        var maxThreshold = 5;
+        var minThreshold = 0
         //$(this).css({"background":"crimson"})
         
         // check the percentage differnce
-        if(bairitsu >= 5){
+        if(bairitsu >= maxThreshold){
             $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "orange", "color": "#FFFFFF"});
         } else if(bairitsu < 0){
             $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "crimson", "color" : "#FFFFFF"});
@@ -30,12 +29,17 @@ $(window).on("load", function(){
             $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "#008800", "color" : "#FFFFFF"});
         }
         
+        // if the prices are 0 then dont calculate it.
         if(oldPrice <= 0 || newPrice <= 0){
             $(this).closest(".dataInputs").find(".bairitsu").css({"background" : "#FFFFFF", "color": "#8e8e8e"});
             $(this).closest(".dataInputs").find(".bairitsu").val("-");
         } else {
             $(this).closest(".dataInputs").find(".bairitsu").val(bairitsu.toFixed(2) + "%");
         }
+    }
+    
+    $("body").on("change keyup click, focus", ".newPrice", function(){
+        CalculateBairitsu();
     });
     
 	// create a row of data (called from LoadAll)

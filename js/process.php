@@ -8,7 +8,7 @@ require_once '../master/dbconnect.php'; // CONNECT TO THE DATABASE
 
 function LoadAll($conn, $FILEMAKER_IMAGE_URL){
         
-	$select = "SELECT * FROM main WHERE maker LIKE '%FSB%'";
+	$select = "SELECT * FROM main WHERE maker LIKE '%fsb%'";
 	$result = mysqli_query($conn, $select);
 
 	$rows = array();
