@@ -194,6 +194,12 @@ html, body {
     float: right;
 }
 
+.statusBoxOther {
+    background: green;
+    color: #FFFFFF;
+    float: right;
+}
+
 .statusBoxOff {
 	opacity: 0.25;
 }

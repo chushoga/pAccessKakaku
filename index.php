@@ -93,9 +93,11 @@
 						<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>color</div>
 					</div>
 					<div style='width: 100%; height: 50%; background: white;'>
-						<div style='width: 250px; height: 100%; float: left; outline: 1px dashed black;'>
+						<div style='width: 324px; height: 100%; float: left; outline: 1px dashed black;'>
 							 <div class='recordStatus'>
 								<div class='statusBox statusBoxWebhyoji'>WEB<br>表示</div>
+                                <div class='statusBox statusBoxWeb'>WEB<br>vari</div>
+                                <div class='statusBox statusBoxOther statusBoxOff'>spare<br>parts</div>
 								<div class='statusBox statusBoxWeb'>紹介必要</div>
 								<div class='statusBox statusBoxWeb'>検討中</div>
 								<div class='statusBox statusBoxWeb statusBoxOff'>物件用</div>
@@ -104,8 +106,8 @@
 								<div class='statusBox statusBoxHaiban'>販売終了</div>
 							</div>
 						</div>
-						<div style='width: calc(50% - 125px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>
-						<div style='width: calc(50% - 125px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2'></div>
+						<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>
+						<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2'></div>
 					</div>
 				</div>
 				<div class='dataInputs' style='width: 200px; height: 75px; outline: 1px dashed red; float: left;'>
