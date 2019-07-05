@@ -1,3 +1,11 @@
+/*
+ ____ ____ ____ ____ ____ ____ ____ 
+||G |||E |||N |||E |||R |||A |||L ||
+||__|||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|/__\|
+*/
+/* start */
+
 * {
 	padding: 0px;
 	margin: 0px;
@@ -8,9 +16,49 @@ html, body {
 	height: 100%;
 }
 
-/* ---- */
-/* NAVI */
-/* ---- */
+
+#overlay {
+	position: absolute;
+	top: 50px;
+	bottom: 15px;
+	width: 100%;
+	background: #3e3e3e;
+	overflow: hidden;
+	z-index: 99;
+	opacity: 1;
+}
+
+#transOverlay {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    background: #000000;
+    opacity: 0.5;
+    display: none;
+    z-index: 99;
+}
+
+#loading {
+	color: #CCC;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 200px;
+	margin-top: -100px;
+	margin-left: -100px;
+}
+
+/* close */
+
+/*
+ ____ ____ ____ ____ 
+||N |||A |||V |||I ||
+||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|
+*/
+/* start */
+
 #navi {
 	position: absolute;
 	top: 0px;
@@ -38,29 +86,15 @@ html, body {
 	cursor: pointer;
 }
 
-/* ---- */
-/* MAIN */
-/* ---- */
-#overlay {
-	position: absolute;
-	top: 50px;
-	bottom: 15px;
-	width: 100%;
-	background: #3e3e3e;
-	overflow: hidden;
-	z-index: 99;
-	opacity: 1;
-}
+/* close */
 
-#loading {
-	color: #CCC;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	font-size: 200px;
-	margin-top: -100px;
-	margin-left: -100px;
-}
+/*
+ ____ ____ ____ ____ ____ ____
+||H |||E |||A |||D |||E |||R ||
+||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|
+*/
+/* start */
 
 #contentHeader {
 	position: absolute;
@@ -68,7 +102,47 @@ html, body {
 	width: 100%;
 	height: 25px;
 	background: #00FFFF;
+    text-align: center;
+    line-height: 25px;
 }
+
+#headerImage {
+    width: 75px;
+    height: 100%;
+    outline: 1px solid black;
+    float: left;
+}
+
+#headerDetails {
+    width: calc(100% - 275px);
+    height: 100%; 
+    float: left;'
+}
+
+.headerDetailsCol {
+    width: 16.6666%;
+    height: 100%;
+    float: left;
+    outline: 1px solid black;
+}
+
+#filter {
+    width: 200px;
+    height: 100%;
+    background: orange;
+    float: left;
+    outline: 1px solid black;
+}
+
+/* close */
+
+/*
+ ____ ____ ____ ____ ____ ____ ____ ____ 
+||C |||O |||N |||T |||E |||N |||T |||S ||
+||__|||__|||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|/__\|/__\|
+*/
+/* start */
 
 #content {
 	position: absolute;
@@ -100,46 +174,32 @@ html, body {
 	background-repeat: no-repeat;
 }
 
-.rowLeft {
-	width: calc(100% - 500px);
-	height: 100%;
-	float: left;
+.rowDetails {
+   float: left;
+   width: calc(100% - 275px);
+   height: 100%;
 }
 
-.rowLeftInner {
-	width: 50%;
-	height: 100%;
-	padding-left: 5px;
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	flex-direction: column;
-	outline: 1px dashed crimson;
-	float: left;
+.rowDetailsBottom {
+    width: 100%;
+    height: 50%;
 }
 
-.rowLeftInnerHeader {
-	width: 100px;
-	height: 100%;
-	padding-left: 5px;
-	background: #FFF;
-	float: left;
-	overflow: hidden;
+.rowDetailsCol {
+    width: 16.6666%; 
+    height: 100%; 
+    outline: 1px solid black; 
+    float: left;
+    text-align: center;
+    line-height: 35px;
 }
 
-.rowLeftInnerContent {
-	width: calc(50% - 110px);
-	height: 100%;
-	padding-left: 5px;
-	float: left;
-	overflow: hidden;
-}
-
-.rowRight {
-	width: 425px;
-	height: 100%;
-	background: #888;
-	float: left;
+.rowDetailsTop{
+	width: 100%;
+    height: 50%;
+    background: #FFFFFF;
+    text-align: center;
+    line-height: 35px;
 }
 
 /*inputs*/
@@ -149,13 +209,14 @@ html, body {
 }
 
 .recordStatus {
-	width: 100%;
+	width:  324px;
 	height: 100%;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	flex-direction: row;
 	flex-wrap: nowrap;
+    float: left;
 }
 
 .dataInputs1 input {
@@ -204,10 +265,16 @@ html, body {
 	opacity: 0.25;
 }
 
+/* close */
 
-/* ---- */
-/* FOOTER */
-/* ---- */
+/*
+ ____ ____ ____ ____ ____ ____ 
+||F |||O |||O |||T |||E |||R ||
+||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|
+*/
+/* start */
+
 #footer {
 	background: #3e3e3e;
 	color: #FFF;
@@ -216,9 +283,17 @@ html, body {
 	width: 100%;
 	height: 15px;
 }
-/* ---- */
-/* MESSAGE DIALOGUE */
-/* ---- */
+
+/* close */
+
+/*
+ ____ ____ ____ ____ ____ ____ ____ 
+||M |||E |||S |||S |||A |||G |||E ||
+||__|||__|||__|||__|||__|||__|||__||
+|/__\|/__\|/__\|/__\|/__\|/__\|/__\|
+*/
+/* start */
+
 #messageDialogue{
 	box-shadow: 4px;
 	width: 500px;
@@ -266,3 +341,4 @@ html, body {
 	color: #888;
 }
 
+/* close */

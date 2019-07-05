@@ -24,19 +24,21 @@
 				<i class="fa fa-spin fa-cog"></i>
 			</div>
 		</div>
+        <div id="transOverlay"></div>
 		<div id="contentHeader">
-			<div style='width: 75px; height: 100%; outline: 1px dashed black; float: left;'>image</div>
-			<div id='headerDetails' style='width: calc(100% - 275px); height: 100%; outline: 1px dashed blue; background: green; float: left;'>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>productId</div>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>tformNo</div>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>makerNo</div>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>orderno</div>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>series</div>
-				<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>color</div>
+			<div id='headerImage'>イメージ</div>
+			<div id='headerDetails'>
+				<div class='headerDetailsCol'>productID</div>
+				<div class='headerDetailsCol'>TFORM品番<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
+				<div class='headerDetailsCol'>メーカー番号<div class='ordeByArrow orderBy' data-id='makerno'></div></div>
+				<div class='headerDetailsCol'>オーダー番号<div class='ordeByArrow orderBy' data-id='orderno'></div></div>
+				<div class='headerDetailsCol'>シリーズ<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
+				<div class='headerDetailsCol'>色<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
 			</div>
-			<div style='width: 200px; height: 100%; background: orange; float: left;'>FILLER</div>
+			<div id='filter'>フィルター</div>
 		</div>
 		<div id="content">
+        <!--
 			<div class='rowWrapper'>
 				<div class='rowImage'><i class='fas fa-image'></i></div>
 				<div class='rowLeft'>
@@ -80,7 +82,6 @@
 					</div>
 				</div>
 			</div>
-			
 			<div class="rowWrapper">
 				<div style='width: 75px; height: 75px; outline: 1px dashed orange; float: left;'>image</div>
 				<div style='width: calc(100% - 275px); height: 75px; outline: 1px dashed blue; float: left;'>
@@ -134,6 +135,7 @@
 					</div>
 				</div>
 			</div>
+        -->
 		</div>
 		<div id="footer">footer</div>
 		

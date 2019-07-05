@@ -62,6 +62,7 @@ $(window).on("load", function(){
 		contents.html(message); // update the conents of the message
 		
 		$("#messageDialogue").fadeIn(500);
+        $("#transOverlay").fadeIn(500);
 		
 	}
 	
@@ -72,6 +73,7 @@ $(window).on("load", function(){
 	$("body").on("click", "#messageDialogue", function(){
 		console.log("test");
 		$(this).fadeOut(300);
+        $("#transOverlay").fadeOut(300);
 	});
 	
 	// remove the loading screen
@@ -104,7 +106,7 @@ $(window).on("load", function(){
         } else if(bairitsu == 0){
             obj.closest(".dataInputs").find(".bairitsu").css({"background" : "#3e3e3e", "color" : "#FFFFFF"});
         } else {
-            obj.closest(".dataInputs").find(".bairitsu").css({"background" : "#008800", "color" : "#FFFFFF"});
+            obj.closest(".dataInputs").find(".bairitsu").css({"background" : "#6eb825", "color" : "#FFFFFF"});
         }
         
         // if the prices are 0 then dont calculate it.
@@ -164,55 +166,79 @@ $(window).on("load", function(){
 				content += "<div class='rowImage' style='"+data[i].thumb+"'></div>";
 			}
 			
-			content += "\
-			<div style='width: calc(100% - 275px); height: 75px; outline: 1px dashed blue; float: left;'>\
-				<div class='rowDetails' style='width: 100%; height: 50%; background: #FFF;'>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].productId+"</div>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].tformNo+"</div>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].makerNo+"</div>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].orderNo+"</div>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].series+"</div>\
-					<div style='width: 16.6666%; height: 100%; outline: 1px dashed black; float: left;'>"+data[i].productColor+"</div>\
-				</div>\
-				<div style='width: 100%; height: 50%; background: white;'>\
-					<div style='width: 324px; height: 100%; float: left; outline: 1px dashed black;'>\
-						 <div class='recordStatus'>";
+            content += "<div class='rowDetails'>";
+                content += "<div class='rowDetailsTop'>";
+                    content += "<div class='recordStatus'>";
+            
+                    // show web flag
+                    if(flg_webHyoji == 1){
+                        content += "<div class='statusBox statusBoxWebhyoji'>WEB<br>表示</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxWebhyoji statusBoxOff'>WEB<br>表示</div>";
+                    }
+
+                    // show web variation
+                    if(flg_webVariation == 1){
+                        content += "<div class='statusBox statusBoxWeb'>WEB<br>vari</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxWeb statusBoxOff'>WEB<br>vari</div>";
+                    }
+
+                    // show web variation
+                    if(flg_webVariation == 1){
+                        content += "<div class='statusBox statusBoxOther'>spare<br>parts</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxOther statusBoxOff'>spare<br>parts</div>";
+                    }
+            
+                    content += "<div class='statusBox statusBoxWeb statusBoxOff'>紹介必要</div>";
+                    content += "<div class='statusBox statusBoxWeb statusBoxOff'>検討中</div>";
+                    content += "<div class='statusBox statusBoxWeb statusBoxOff'>物件用</div>";
+                    
+                    // show tform haiban
+                    if(flg_tformHaiban == 1){
+                        content += "<div class='statusBox statusBoxHaiban'>tform廃番</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxHaiban statusBoxOff'>tform廃番</div>";
+                    }
+            
+                    // show maker haiban
+                    if(flg_makerHaiban == 1){
+                        content += "<div class='statusBox statusBoxHaiban'>maker廃番</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxHaiban statusBoxOff'>maker廃番</div>";
+                    }
+            
+                    // show cancel selling
+                    if(flg_cancelSelling == 1){
+                        content += "<div class='statusBox statusBoxHaiban'>販売終了</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxHaiban statusBoxOff'>販売終了</div>";
+                    }
+            
+
+                    content += "</div>"; // end of record status
 			
-				// show web flag
-				if(flg_webHyoji == 0){
-					content += "<div class='statusBox statusBoxWebhyoji '>WEB<br>表示</div>";
-				} else {
-					content += "<div class='statusBox statusBoxWebhyoji statusBoxOff'>WEB<br>表示</div>";
-				}
-				
-				// show web variation
-				if(flg_webVariation == 0){
-					content += "<div class='statusBox statusBoxWeb'>WEB<br>vari</div>";
-				} else {
-					content += "<div class='statusBox statusBoxWeb statusBoxOff'>WEB<br>vari</div>";
-				}
-			
-			// show web variation
-				if(flg_webVariation == 0){
-					content += "<div class='statusBox statusBoxOther statusBoxOff'>spare<br>parts</div>";
-				} else {
-					content += "<div class='statusBox statusBoxOther statusBoxOff'>spare<br>parts</div>";
-				}
-			
-			content += "\
-						<div class='statusBox statusBoxWeb'>紹介必要</div>\
-						<div class='statusBox statusBoxWeb'>検討中</div>\
-						<div class='statusBox statusBoxWeb statusBoxOff'>物件用</div>\
-						<div class='statusBox statusBoxHaiban statusBoxOff'>tform廃番</div>\
-						<div class='statusBox statusBoxHaiban'>maker廃番</div>\
-						<div class='statusBox statusBoxHaiban'>販売終了</div>";
-			content += "\
-						</div>\
-					</div>\
+            content += "\
 					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>\
 					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2'></div>\
+            ";
+            content += "</div>"; // end of row details Top
+			
+            content += "\
+				<div class='rowDetailsBottom'>\
+					<div class='rowDetailsCol'>"+data[i].productId+"</div>\
+					<div class='rowDetailsCol'>"+data[i].tformNo+"</div>\
+					<div class='rowDetailsCol'>"+data[i].makerNo+"</div>\
+					<div class='rowDetailsCol'>"+data[i].orderNo+"</div>\
+					<div class='rowDetailsCol'>"+data[i].series+"</div>\
+					<div class='rowDetailsCol'>"+data[i].productColor+"</div>\
 				</div>\
-			</div>\
+				";
+          
+            content += "</div>"; // end of row details
+            
+            content += "\
 			<div class='dataInputs' style='width: 200px; height: 75px; outline: 1px dashed red; float: left;'>\
 				<div style='width: 60%; height: 100%; float: left;'>\
 					<div style='width: 100%; height: 50%;'>\
@@ -235,29 +261,8 @@ $(window).on("load", function(){
 				<div style='width: 40%; height: 100%; background: pink; float: left; text-align: center;'>\
 					<input class='bairitsu' style='width: 100%; height: 100%; border: none; text-align: center; font-size: 26px;' type='text' class='bairitsu' value='3.5%' disabled='disabled'>\
 			</div>\
-			</div>\
-			";
-			
-			/*
-			// image
-			//content += "<div class='rowImage'><i class='fas fa-camera'></i></div>";
-			if(data[i].thumb == ""){
-				content += "<div class='rowImage'><i class='fas fa-image'></i></div>";
-			} else {
-				content += "<div class='rowImage' style='"+data[i].thumb+"'></div>";
-			}
-            
-            content += "---" + data[i].sp_plCurrent;
-
-			// old price
-			content += "<input type='text' value='0123.45'>";
-
-			// new price
-			content += "<input type='text' value='0123.45'>";
-
-			// bairitsu
-			content += "<input type='text' value='0123.45'>";
-*/
+            ";
+            content += "</div>";
 			content += "</div>";
 		}
 		
