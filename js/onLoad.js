@@ -253,9 +253,7 @@ $(window).on("load", function(){
 						<div style='width: 100%; height: 50%;'>\
 							<input class='oldPrice' type='text' value='71.1' disabled='disabled' style='width: 100%; height: 100%; border: none;'>\
 						</div>\
-						<div style='width: 100%; height: 50%;'>\
-							<input type='text' value='PL2018' style='width: 100%; height: 100%; border: none;'>\
-						</div>\
+						<div style='width: 100%; height: 50%;'>PL2018</div>\
 					</div>\
 				</div>\
 				<div style='width: 40%; height: 100%; background: pink; float: left; text-align: center;'>\
