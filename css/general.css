@@ -86,6 +86,19 @@ html, body {
 	cursor: pointer;
 }
 
+.naviEditInProgress {
+	width: 44px;
+	height: 44px;
+	float: right;
+	line-height: 44px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 2px;
+	font-size: 25px;
+	color: #24c93a;
+	display: none;
+}
+
 /* close */
 
 /*
@@ -101,9 +114,11 @@ html, body {
 	top: 50px;
 	width: 100%;
 	height: 25px;
-	background: #00FFFF;
+	background: #3e3e3e;
+	color: #CCCCCC;
     text-align: center;
     line-height: 25px;
+	user-select: none;
 }
 
 #headerImage {
@@ -120,6 +135,7 @@ html, body {
 }
 
 .headerDetailsCol {
+	position: relative;
     width: 16.6666%;
     height: 100%;
     float: left;
@@ -129,10 +145,47 @@ html, body {
 #filter {
     width: 200px;
     height: 100%;
-    background: orange;
+    background: black;
     float: left;
     outline: 1px solid black;
 }
+
+#filter input {
+	width: 172px;
+	height: 23px;
+	margin-top: 1px;
+	float: left;
+	border: none;
+	padding-left: 5px;
+}
+
+.filterIcon {
+	width: 23px;
+	height: 23px;
+	float: left;
+	margin-top: 1px;
+	color: #3e3e3e;
+	background: #FFFFFF;
+}
+
+#clearFilter {
+	
+}
+
+.orderBy {
+	position: absolute;
+	right: 5px;
+	top: 2px;
+	width: 20px;
+	height: 20px;
+	float: right;
+}
+
+.orderBy:hover {
+	cursor: pointer;
+	color: #FFFFFF;
+}
+
 
 /* close */
 
@@ -202,11 +255,44 @@ html, body {
     line-height: 35px;
 }
 
-/*inputs*/
-.dataInputs1 {
-	width: 100%;
-	height: 45px;
+.rowWrapper:hover {
+	/*opacity: 0.75 !important;*/
 }
+
+/* ----------------------------------- */
+/*inputs*/
+/* ----------------------------------- */
+
+.dataInputs {
+	width: 200px;
+	height: 75px;
+	float: left;
+	text-align: center;
+}
+
+.dataInputsLeft {
+	width: 60%;
+	height: 100%;
+	float: left;
+}
+
+.dataInputsRight {
+	width: 40%;
+	height: 100%;
+	float: left;
+}
+
+.dataInputs input {
+	border: none;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+
+/* ----------------------------------- */
+/* record status */
+/* ----------------------------------- */
 
 .recordStatus {
 	width:  324px;
@@ -217,15 +303,6 @@ html, body {
 	flex-direction: row;
 	flex-wrap: nowrap;
     float: left;
-}
-
-.dataInputs1 input {
-	width: 120px;
-	height: 35px;
-	margin-top: 3px;
-	margin-left: 5px;
-	font-size: 30px;
-	text-align: center;
 }
 
 .statusBox {

@@ -18,6 +18,7 @@
             <div class="naviBtn"><i class="fas fa-file-excel"></i></div>
             <div class="naviBtn"><i class="fas fa-print"></i></div>
             <div class="naviBtn"><i class="fas fa-save"></i></div>
+			<div class="naviEditInProgress"><i class="fas fa-compact-disc fa-spin"></i></div>
 		</div>
 		<div id="overlay">
 			<div id="loading">
@@ -28,14 +29,17 @@
 		<div id="contentHeader">
 			<div id='headerImage'>イメージ</div>
 			<div id='headerDetails'>
-				<div class='headerDetailsCol'>productID</div>
-				<div class='headerDetailsCol'>TFORM品番<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
-				<div class='headerDetailsCol'>メーカー番号<div class='ordeByArrow orderBy' data-id='makerno'></div></div>
-				<div class='headerDetailsCol'>オーダー番号<div class='ordeByArrow orderBy' data-id='orderno'></div></div>
-				<div class='headerDetailsCol'>シリーズ<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
-				<div class='headerDetailsCol'>色<div class='ordeByArrow orderBy' data-id='tformno'></div></div>
+				<div class='headerDetailsCol'>productID<div class='orderBy' data-id='productid'><i class='fas fa-sort'></i></div></div>
+				<div class='headerDetailsCol'>TFORM品番<div class='orderBy' data-id='tformno'><i class='fas fa-sort-down'></i></div></div>
+				<div class='headerDetailsCol'>メーカー番号<div class='orderBy' data-id='makerno'><i class='fas fa-sort'></i></div></div>
+				<div class='headerDetailsCol'>オーダー番号<div class='orderBy' data-id='orderno'><i class='fas fa-sort'></i></div></div>
+				<div class='headerDetailsCol'>シリーズ<div class='orderBy' data-id='series'><i class='fas fa-sort'></i></div></div>
+				<div class='headerDetailsCol'>色<div class='orderBy' data-id='color'><i class='fas fa-sort'></i></div></div>
 			</div>
-			<div id='filter'>フィルター</div>
+			<div id='filter'>
+				<input type='text' placeholder="フィルター">
+				<div class='filterIcon'><i class='fas fa-filter'></i></div>
+			</div>
 		</div>
 		<div id="content">
         <!--

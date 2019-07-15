@@ -1,9 +1,13 @@
 $(window).on("load", function(){
 	
-	/* HELPERS */
+	/* GLOBAL VARIABLES */
+	var ORDERBY = "tformNo";
 	
+	/* ------------------------------------------------------------------------------------------ */
+	/* HELPERS */
+	/* ------------------------------------------------------------------------------------------ */
 	/* prevent input other than numbers and dot. */
-	$(".allow_decimal").on("input", function(evt) {
+	$("body").on("input", ".allow_decimal", function(evt) {
 	   var self = $(this);
 	   self.val(self.val().replace(/[^0-9\.]/g, ''));
 	   if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) 
@@ -22,8 +26,45 @@ $(window).on("load", function(){
 	// update the header size on load because of the scroll bar width.
 	$(window).on("resize", function(){UpdateHeaderWidth();});
 	
+	// HIGHLIGHT SELECTED ROW
+	$("body").on("focusin click", ".newPrice", function(){
+		$(this).select();
+		$(".rowWrapper").css({"opacity":0.4});
+		$(this).closest(".rowWrapper").css({"opacity":1});
+	});
 	
+	$("body").on("focusout", ".newPrice", function(){
+		$(".rowWrapper").css({"opacity":1});
+		$(this).closest(".rowWrapper").css({"opacity":1});
+	});
+	
+	// Update the ORDERBY global variable when click on the order by sort icons
+	$("body").on("click", ".orderBy", function(){
+		if(ORDERBY == $(this).attr("data-id")){
+			$(this).find("i").toggleClass("fa-sort-up fa-sort-down");
+		} else {
+			// update the icons
+			// remove the old icons
+			$(".orderBy i").removeClass("fa-sort");
+			$(".orderBy i").removeClass("fa-sort-up");
+			$(".orderBy i").removeClass("fa-sort-down");
+			
+			// update all the icons with the basic sort
+			$(".orderBy i").addClass("fa-sort");
+			
+			// set the new sort
+			ORDERBY = $(this).attr("data-id"); // set the new order by
+			
+			// give the new sorter the down arrow
+			$(this).find("i").removeClass("fa-sort");
+			$(this).find("i").addClass("fa-sort-down");
+		}
+		
+		console.log(ORDERBY);
+	});
+	/* ------------------------------------------------------------------------------------------ */
 	// message system
+	/* ------------------------------------------------------------------------------------------ */
 	// type = success, error, warning, info
 	// message = any string, accpets html.
 	function Message(type = "info", message = "default message"){
@@ -67,7 +108,7 @@ $(window).on("load", function(){
 	}
 	
 	$(".naviBtn").on("click", function(){
-		Message("error", "message here");
+		Message("error", "BUTTON NOT SET UP YET");
 	});
 	
 	$("body").on("click", "#messageDialogue", function(){
@@ -76,6 +117,9 @@ $(window).on("load", function(){
         $("#transOverlay").fadeOut(300);
 	});
 	
+	/* ------------------------------------------------------------------------------------------ */
+	/* OVERLAY */
+	/* ------------------------------------------------------------------------------------------ */
 	// remove the loading screen
 	function OverlayFadeOut(){
 		$("#overlay").fadeOut(1000);
@@ -85,8 +129,73 @@ $(window).on("load", function(){
 	function OverlayFadeIn(){
 		$("#overlay").fadeIn(1000);
 	}
-    
+    /* ------------------------------------------------------------------------------------------ */
+	
+	/* ------------------------------------------------------------------------------------------ */
+	/* FILTER */
+	/* ------------------------------------------------------------------------------------------ */
+	// search through each row and check to see if any of the input words match something in the row
+	// allow spaces for additional search parameters(not to make more percise)
+	// restrict the search to being more than 3 chars
+	function FilterMe(str){
+		
+		// break the search into an array
+		var arr = str.split(" ");
+		// check if more than 3 chars
+		if(str.length >= 3){
+					
+			//$(".rowWrapper").css({"opacity":0.3}); // hide all before the filter
+			$(".rowWrapper").hide();
+			
+			$(".rowWrapper").each(function(){
+				
+				var productId = $(this).find(".rowDetailsCol").attr("data-productid");
+				var tformNo = $(this).find("[data-tformNo]").attr("data-tformno");
+				var makerNo = $(this).find("[data-makerno]").attr("data-makerno");
+				var orderNo = $(this).find("[data-orderno]").attr("data-orderno");
+				var currentPriceTitle = $(this).find(".spdiscratememo").attr("data-spdiscratememo");
+				
+				for(var i = 0; i < arr.length; i++){
+					if(
+						productId.toLowerCase().indexOf(arr[i]) >= 0 ||
+						tformNo.toLowerCase().indexOf(arr[i]) >= 0 ||
+						makerNo.toLowerCase().indexOf(arr[i]) >= 0 ||
+						orderNo.toLowerCase().indexOf(arr[i]) >= 0 ||
+						currentPriceTitle.toLowerCase().indexOf(arr[i]) >= 0
+					){
+						$(this).show();
+					}
+				}
+				
+			});
+		} else {
+			$(".rowWrapper").show();
+		}
+		var id = $(".rowDetailsCol").attr("data-productid");
+	}
+	
+	$("body").on("change keyup", "#filter input", function(){
+		if($(this).val().length >= 1){
+			$(".filterIcon i").removeClass("fa-filter");
+			$(".filterIcon i").addClass("fa-times");
+		} else {
+			// show the clear icon
+			$(".filterIcon i").removeClass("fa-times");
+			$(".filterIcon i").addClass("fa-filter");
+		}
+		FilterMe($(this).val());
+	});
+	
+	$(".filterIcon").on("click", function(){
+		$("#filter input").val("");
+		$(".filterIcon i").removeClass("fa-times");
+		$(".filterIcon i").addClass("fa-filter");
+		FilterMe("");
+	});
+	
+	/* ------------------------------------------------------------------------------------------ */
 	// Calculate the bairitsu
+	/* ------------------------------------------------------------------------------------------ */
     function CalculateBairitsu(obj){
 				
         var oldPrice = obj.closest(".dataInputs").find(".oldPrice").val();
@@ -96,8 +205,6 @@ $(window).on("load", function(){
         var maxThreshold = 5;
         var minThreshold = 0
 		
-        //$(this).css({"background":"crimson"})
-        
         // check the percentage differnce
         if(bairitsu >= maxThreshold){
             obj.closest(".dataInputs").find(".bairitsu").css({"background" : "orange", "color": "#FFFFFF"});
@@ -124,7 +231,7 @@ $(window).on("load", function(){
 		
 		var obj = $(this);
 		
-        CalculateBairitsu(obj);
+        CalculateBairitsu(obj); // calculate the bairitsu
 		
     });
 	
@@ -137,8 +244,43 @@ $(window).on("load", function(){
 			CalculateBairitsu(obj);
 		});
 	}
+	/* ------------------------------------------------------------------------------------------ */
+	
+	/* ------------------------------------------------------------------------------------------ */
+	// update the temp pricelist table with the input price
+	/* ------------------------------------------------------------------------------------------ */
+	function SaveToTemp(obj){
+		
+		var newPrice = obj.val();
+		var productId = obj.attr("data-productid");
+		
+		$.ajax({
+			type: "post",
+			url: "js/process.php",
+			data: "action=SaveToTemp&productId="+productId+"&price="+newPrice,
+			success: function(data){
+				// fade out the success save icon
+				$(".naviEditInProgress").stop(true);
+				$(".naviEditInProgress").fadeIn(500).delay(2000).fadeOut(500);
+			},
+			error: function(e){
+				Message("error", "There was an error loading the data from function loadAll.<br> Error details: <br><hr><br>"+e.responseText);
+			}
+		});
+	}
     
+	// on save the new price to the temp table
+	// when the input box looses focus
+    $("body").on("change", ".newPrice", function(){
+		
+		var obj = $(this);
+		
+		SaveToTemp(obj); // save the price and id to the pricelist table
+		
+    });
+	/* ------------------------------------------------------------------------------------------ */
 	// create a row of data (called from LoadAll)
+	/* ------------------------------------------------------------------------------------------ */
 	function NewRow(data){
 
 		var main = $("#content");
@@ -221,42 +363,43 @@ $(window).on("load", function(){
 			
             content += "\
 					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>\
-					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2'></div>\
+					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2' tabindex='-1'></div>\
             ";
             content += "</div>"; // end of row details Top
 			
             content += "\
 				<div class='rowDetailsBottom'>\
-					<div class='rowDetailsCol'>"+data[i].productId+"</div>\
-					<div class='rowDetailsCol'>"+data[i].tformNo+"</div>\
-					<div class='rowDetailsCol'>"+data[i].makerNo+"</div>\
-					<div class='rowDetailsCol'>"+data[i].orderNo+"</div>\
-					<div class='rowDetailsCol'>"+data[i].series+"</div>\
-					<div class='rowDetailsCol'>"+data[i].productColor+"</div>\
+					<div class='rowDetailsCol' data-productid='"+data[i].productId+"'>"+data[i].productId+"</div>\
+					<div class='rowDetailsCol' data-tformno='"+data[i].tformNo+"'>"+data[i].tformNo+"</div>\
+					<div class='rowDetailsCol' data-makerno='"+data[i].makerNo+"'>"+data[i].makerNo+"</div>\
+					<div class='rowDetailsCol' data-orderno='"+data[i].orderNo+"'>"+data[i].orderNo+"</div>\
+					<div class='rowDetailsCol' data-series="+data[i].series+">"+data[i].series+"</div>\
+					<div class='rowDetailsCol' data-productcolor='"+data[i].productColor+"'>"+data[i].productColor+"</div>\
 				</div>\
 				";
           
             content += "</div>"; // end of row details
             
             content += "\
-			<div class='dataInputs' style='width: 200px; height: 75px; outline: 1px dashed red; float: left;'>\
-				<div style='width: 60%; height: 100%; float: left;'>\
-					<div style='width: 100%; height: 50%;'>\
-						<div style='width: 100%; height: 50%; background: green;'>\
-							<input class='newPrice allow_decimal' style='border: none; width: 100%; height: 100%;' type='text' value='73.7'>\
-						</div>\
-						<div style='width: 100%; height: 50%; background: lightgreen;'>\
-							<input style='border: none; width: 100%; height: 100%;' type='text' value='PL2019'>\
-						</div>\
-					</div>\
-					<div style='width: 100%; height: 50%;'>\
+			<div class='dataInputs' style=''>\
+				<div class='dataInputsLeft'>\
+				\
+					<div style='width: 50%; height: 100%; float: left; opacity: 0.2;'>\
 						<div style='width: 100%; height: 50%;'>\
-							<input class='oldPrice' type='text' value='71.1' disabled='disabled' style='width: 100%; height: 100%; border: none;'>\
+							<input class='oldPrice' type='text' value='"+data[i].sp_plCurrent+"' disabled='disabled' style='width: 100%; height: 100%; border: none; text-align: center;'>\
 						</div>\
-						<div style='width: 100%; height: 50%;'>PL2018</div>\
+						<div class='spdiscratememo' data-spdiscratememo='"+data[i].sp_disc_rate_memo+"' style='width: 100%; height: 50%; display: flex; justify-content: center; align-items: center; color:"+data[i].sp_plCurrent_color+"'>"+data[i].sp_disc_rate_memo+"</div>\
 					</div>\
+\
+					<div style='width: 50%; height: 100%; float: left;'>\
+						<div style='width: 100%; height: 50%; background: green;'>\
+							<input data-productid='"+data[i].productId+"' class='newPrice allow_decimal' type='text' value='"+data[i].temp_price+"'>\
+						</div>\
+						<div style='width: 100%; height: 50%; display: flex; justify-content: center; align-items: center;'>"+data[i].temp_priceListTitle+"</div>\
+					</div>\
+\
 				</div>\
-				<div style='width: 40%; height: 100%; background: pink; float: left; text-align: center;'>\
+				<div class='dataInputsRight'>\
 					<input class='bairitsu' style='width: 100%; height: 100%; border: none; text-align: center; font-size: 26px;' type='text' class='bairitsu' value='3.5%' disabled='disabled'>\
 			</div>\
             ";
@@ -268,31 +411,33 @@ $(window).on("load", function(){
 		
 		Start();
 	}
-	
+	/* ------------------------------------------------------------------------------------------ */
     // load All data
 	function LoadAll(){
 		$.ajax({
 			type: "post",
 			url: "js/process.php",
-			data: "action=loadAll",
+			data: "action=LoadAll",
 			success: function(data){
 				NewRow(data);
 			},
 			error: function(e){
-				Message("error", "There was an error loading the data from function loadAll.<br> Error details: "+e);
+				Message("error", "There was an error loading the data from function loadAll.<br> Error details: <br><hr><br>"+e.responseText);
 			}
 		});
 	}
-		
+	/* ------------------------------------------------------------------------------------------ */
     LoadAll();
 	
+	/* ------------------------------------------------------------------------------------------ */
 	// START ALL STUFF AFTER LOADED
+	/* ------------------------------------------------------------------------------------------ */
 	function Start(){
 		UpdateHeaderWidth(); // first time to update the header width, other times will be with a onWindowResize event.
 		UpdateAllBairitsu(); // update the bairitsu stuffs
 		OverlayFadeOut(); // remove the overlay
 	}
-	
+	/* ------------------------------------------------------------------------------------------ */
 	
     // create outline of system
     // dbconnect.php
@@ -308,23 +453,23 @@ $(window).on("load", function(){
 	// create system for re-ording data
     
 	// message system
-	// load list
-	// save system to save on every entry
+	
+	
 	// reset all inputs
 	// confirm dialog
 	// shortcuts for saving and moving to next record
 	// settings page - set the max and min for the bairitsu and highlight anything above the threshold
 	// created/edit new maker conditions
 	// add filter/search system
-	// create the status blocks(web, haban, kento ...)
+	
 	// add excel export
 	// add new import button to update filemaker data and new maker data. (need a system for this)
 	// explaination of the system
-	// add finish colors
-	// add memo input for setting prices for each item
-	// calcualte bairitsu on input of new price on each rows
-	// add new database info for the kento chu
-	// add on input focus select all the text to allow for quick entry
+	
+	
+	
+	
+	
 	// filter for hiding haiban items
 	
 	
