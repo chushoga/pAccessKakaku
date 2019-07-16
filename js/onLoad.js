@@ -20,6 +20,9 @@ $(window).on("load", function(){
 	function UpdateHeaderWidth(){
 		// get the row width
 		var newWidth = $(".rowDetails").width();
+        if(newWidth == 0){
+            newWidth = ($("#navi").width() - $("#headerImage").width()) - $("#filter").width();
+        }
 		$("#headerDetails").width(newWidth);
 	}
 	
@@ -172,6 +175,8 @@ $(window).on("load", function(){
 			$(".rowWrapper").show();
 		}
 		var id = $(".rowDetailsCol").attr("data-productid");
+        
+        UpdateHeaderWidth(); // update header row width
 	}
 	
 	$("body").on("change keyup", "#filter input", function(){
@@ -183,7 +188,9 @@ $(window).on("load", function(){
 			$(".filterIcon i").removeClass("fa-times");
 			$(".filterIcon i").addClass("fa-filter");
 		}
+        
 		FilterMe($(this).val());
+        
 	});
 	
 	$(".filterIcon").on("click", function(){
@@ -400,7 +407,7 @@ $(window).on("load", function(){
 \
 				</div>\
 				<div class='dataInputsRight'>\
-					<input class='bairitsu' style='width: 100%; height: 100%; border: none; text-align: center; font-size: 26px;' type='text' class='bairitsu' value='3.5%' disabled='disabled'>\
+					<input class='bairitsu' style='width: 100%; height: 100%; border: none; text-align: center; font-size: 26px;' type='text' class='bairitsu' value='' disabled='disabled'>\
 			</div>\
             ";
             content += "</div>";

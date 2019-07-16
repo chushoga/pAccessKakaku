@@ -104,7 +104,7 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 				while($rowTemp = mysqli_fetch_assoc($tempQuery)){
 					$tempPrice = $rowTemp['newPrice'];
 					if($rowTemp['sp_disc_rate_id'] == 0){
-						$tempPrice_priceListTitle = "NO HISTORY";
+						$tempPrice_priceListTitle = "割引所件設定必要";
 					} else {
 						$tempPrice_priceListTitle = $rowTemp['sp_disc_rate_id'];
 					}
@@ -263,6 +263,7 @@ if(isset($_POST["price"])){
 	$price = "";
 }
 
+// CHECK WHICH ACTION TO TAKE
 switch($action){
 	case "LoadAll":
 		LoadAll($conn, $FILEMAKER_IMAGE_URL);
