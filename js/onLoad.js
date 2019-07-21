@@ -2,6 +2,7 @@ $(window).on("load", function(){
 	
 	/* GLOBAL VARIABLES */
 	var ORDERBY = "tformNo";
+	var IS_DESC = false;
 	
 	/* ------------------------------------------------------------------------------------------ */
 	/* HELPERS */
@@ -43,6 +44,10 @@ $(window).on("load", function(){
 	
 	// Update the ORDERBY global variable when click on the order by sort icons
 	$("body").on("click", ".orderBy", function(){
+		
+		// update the alphabetical order
+		IS_DESC = !IS_DESC;
+		
 		if(ORDERBY == $(this).attr("data-id")){
 			$(this).find("i").toggleClass("fa-sort-up fa-sort-down");
 		} else {
@@ -63,7 +68,40 @@ $(window).on("load", function(){
 			$(this).find("i").addClass("fa-sort-down");
 		}
 		
-		console.log(ORDERBY);
+		//console.log("ORDER BY: " + ORDERBY + " ( " + IS_DESC + " )");
+		
+		// reorder array
+		var reOrderArray = [];
+		
+		// re-order here
+		$(".rowWrapper").each(function(){
+			
+			// take the current order by and search the row for that id.
+			// when found add that html to an array
+			// re-arange the array depending on the IS_DESC to asc or desc
+			// show the new row arrangements
+			var id = $(this).attr("data-rowid");
+			var val = $(this).find(".rowDetailsCol[data-"+ORDERBY+"]").html();
+			
+			// push into the array
+			reOrderArray.push([id, val]);
+			//reOrderArray.push(val);
+			
+		});
+		
+		console.log(reOrderArray[0]);
+		
+		// sort the array
+		if(IS_DESC) {
+			reOrderArray.sort();
+		} else {
+			reOrderArray.sort();
+			reOrderArray.reverse();
+		}
+		
+		// get each row by 
+		console.log(reOrderArray);
+		
 	});
 	/* ------------------------------------------------------------------------------------------ */
 	// message system
@@ -306,7 +344,7 @@ $(window).on("load", function(){
 			var flg_makerHaiban = data[i].cancelMaker;
 			var flg_cancelSelling = data[i].cancelSelling;
 			
-			content += "<div class='rowWrapper'>";
+			content += "<div class='rowWrapper' data-rowid='"+i+"'>";
 
 			// IMAGES
 			if(data[i].thumb == ""){
