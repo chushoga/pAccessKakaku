@@ -4,17 +4,72 @@ $(window).on("load", function(){
 	var ORDERBY = "tformNo";
 	var IS_DESC = false;
 	
+    // ******************************************************************************************
+    // SHORTCUTS
+    // start
+    // ******************************************************************************************
+    
+    $(document).keydown(function(e){
+        
+        // move up or down rows with the arrow keys. 
+        // Up will focus on previous row and down will focus on the next
+        // (tab and shift+tab work too)
+        var currentFocus = $(':focus');
+        var prevFocus = currentFocus.closest(".rowWrapper").prev(".rowWrapper").find(".newPrice");
+        var nextFocus = currentFocus.closest(".rowWrapper").next(".rowWrapper").find(".newPrice");
+        
+        // [ KEYCODES ]
+        // UP ARROW = 38
+        // DOWN ARROW = 40
+        // TAB = 9
+        // ESCAPE = 27
+        
+        switch(e.which) {
+            case 38:
+            case e.shiftKey && 9:
+                prevFocus.focus().select(); // focus and select the on the previous row
+                
+                // check if the currently current active element focused is the input box and if not, focus previous
+                if(document.activeElement.className != "ammountInputBox"){
+                    $(".currentRowHighlight").find("input").closest("tr").prev("tr").find("input").focus().select();
+                }
+                
+                break;
+            case 40:
+            case 9:
+                nextFocus.focus().select(); // focus and select on the next row
+                
+                // check if the currently current active element focused is the input box and if not, focus next
+                if(document.activeElement.className != "ammountInputBox"){
+                    $(".currentRowHighlight").find("input").closest("tr").next("tr").find("input").focus().select();
+                }
+            
+                break;
+            case 27:
+                // when escape key is pressed hide the overlay and shut all visible dialogs
+                $(".dialog:visible").fadeOut();
+                HideRowFocus(); // hide the overlay
+            default: return; // exit handler for other keys
+        }
+        e.preventDefault(); // prevent the default actions of the keys above
+    });
+    
+    // ******************************************************************************************
+    //close
+    // ******************************************************************************************
 	/* ------------------------------------------------------------------------------------------ */
 	/* HELPERS */
 	/* ------------------------------------------------------------------------------------------ */
 	/* prevent input other than numbers and dot. */
 	$("body").on("input", ".allow_decimal", function(evt) {
-	   var self = $(this);
-	   self.val(self.val().replace(/[^0-9\.]/g, ''));
-	   if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) 
-	   {
-		 evt.preventDefault();
-	   }
+	   
+        var self = $(this);
+        self.val(self.val().replace(/[^0-9\.]/g, ''));
+        if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) 
+        {
+		  evt.preventDefault();
+        }
+        
 	});
 	
 	// update the header width
@@ -32,14 +87,11 @@ $(window).on("load", function(){
 	
 	// HIGHLIGHT SELECTED ROW
 	$("body").on("focusin click", ".newPrice", function(){
-		$(this).select();
-		$(".rowWrapper").css({"opacity":0.4});
-		$(this).closest(".rowWrapper").css({"opacity":1});
+		ShowRowFocus($(this));
 	});
 	
 	$("body").on("focusout", ".newPrice", function(){
-		$(".rowWrapper").css({"opacity":1});
-		$(this).closest(".rowWrapper").css({"opacity":1});
+		HideRowFocus();
 	});
 	
 	// Update the ORDERBY global variable when click on the order by sort icons
@@ -157,7 +209,7 @@ $(window).on("load", function(){
 		$(this).fadeOut(300);
         $("#transOverlay").fadeOut(300);
 	});
-	
+        
 	/* ------------------------------------------------------------------------------------------ */
 	/* OVERLAY */
 	/* ------------------------------------------------------------------------------------------ */
@@ -170,6 +222,19 @@ $(window).on("load", function(){
 	function OverlayFadeIn(){
 		$("#overlay").fadeIn(1000);
 	}
+    
+    // show the row focus
+    function ShowRowFocus(target){
+        target.select();
+		$(".rowWrapper").css({"opacity":0.4});
+		target.closest(".rowWrapper").css({"opacity":1});
+    }
+    
+    // hide the row focus
+    function HideRowFocus(){
+        $(".rowWrapper").css({"opacity":1});
+		//$(this).closest(".rowWrapper").css({"opacity":1});
+    }
     /* ------------------------------------------------------------------------------------------ */
 	
 	/* ------------------------------------------------------------------------------------------ */
@@ -181,7 +246,7 @@ $(window).on("load", function(){
 	function FilterMe(str){
 		
 		// break the search into an array
-		var arr = str.split(" ");
+		var arr = str.toLowerCase().split(" ");
 		// check if more than 3 chars
 		if(str.length >= 3){
 					
@@ -190,10 +255,11 @@ $(window).on("load", function(){
 			
 			$(".rowWrapper").each(function(){
 				
-				var productId = $(this).find(".rowDetailsCol").attr("data-productid");
+				var productId = $(this).find("[data-productid]").attr("data-productid");
 				var tformNo = $(this).find("[data-tformNo]").attr("data-tformno");
 				var makerNo = $(this).find("[data-makerno]").attr("data-makerno");
 				var orderNo = $(this).find("[data-orderno]").attr("data-orderno");
+                var series = $(this).find("[data-series]").attr("data-series");
 				var currentPriceTitle = $(this).find(".spdiscratememo").attr("data-spdiscratememo");
 				
 				for(var i = 0; i < arr.length; i++){
@@ -202,6 +268,7 @@ $(window).on("load", function(){
 						tformNo.toLowerCase().indexOf(arr[i]) >= 0 ||
 						makerNo.toLowerCase().indexOf(arr[i]) >= 0 ||
 						orderNo.toLowerCase().indexOf(arr[i]) >= 0 ||
+                        series.toLowerCase().indexOf(arr[i]) >= 0 ||
 						currentPriceTitle.toLowerCase().indexOf(arr[i]) >= 0
 					){
 						$(this).show();
@@ -429,7 +496,7 @@ $(window).on("load", function(){
 			<div class='dataInputs' style=''>\
 				<div class='dataInputsLeft'>\
 				\
-					<div style='width: 50%; height: 100%; float: left; opacity: 0.2;'>\
+					<div style='width: 50%; height: 100%; float: left;'>\
 						<div style='width: 100%; height: 50%;'>\
 							<input class='oldPrice' type='text' value='"+data[i].sp_plCurrent+"' disabled='disabled' style='width: 100%; height: 100%; border: none; text-align: center;'>\
 						</div>\
