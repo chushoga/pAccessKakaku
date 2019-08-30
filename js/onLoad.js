@@ -145,16 +145,22 @@ $(window).on("load", function(){
 		
 		// sort the array
 		if(IS_DESC) {
-			reOrderArray.sort();
+			reOrderArray[1].sort();
 		} else {
-			reOrderArray.sort();
+			reOrderArray[1].sort();
 			reOrderArray.reverse();
 		}
 		
-		// get each row by 
+		// get each row by
 		console.log(reOrderArray);
 		
+        // reorder the stuff now.
+        for(var i = 0; i < reOrderArray.length; i++){
+            console.log($("#contents").find("$.rowWrapper[data-rowid=1]"));
+        }
+        
 	});
+    
 	/* ------------------------------------------------------------------------------------------ */
 	// message system
 	/* ------------------------------------------------------------------------------------------ */
