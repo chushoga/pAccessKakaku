@@ -34,7 +34,7 @@
 				<div class='headerDetailsCol'>メーカー番号<div class='orderBy' data-id='makerno'><i class='fas fa-sort'></i></div></div>
 				<div class='headerDetailsCol'>オーダー番号<div class='orderBy' data-id='orderno'><i class='fas fa-sort'></i></div></div>
 				<div class='headerDetailsCol'>シリーズ<div class='orderBy' data-id='series'><i class='fas fa-sort'></i></div></div>
-				<div class='headerDetailsCol'>色<div class='orderBy' data-id='color'><i class='fas fa-sort'></i></div></div>
+				<div class='headerDetailsCol'>色<div class='orderBy' data-id='productcolor'><i class='fas fa-sort'></i></div></div>
 			</div>
 			<div id='filter'>
 				<input type='text' placeholder="フィルター">

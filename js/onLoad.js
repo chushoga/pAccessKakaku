@@ -136,18 +136,16 @@ $(window).on("load", function(){
 			var val = $(this).find(".rowDetailsCol[data-"+ORDERBY+"]").html();
 			
 			// push into the array
-			reOrderArray.push([id, val]);
+			reOrderArray.push([val, id]);
 			//reOrderArray.push(val);
 			
 		});
-		
-		console.log(reOrderArray[0]);
-		
+				
 		// sort the array
 		if(IS_DESC) {
-			reOrderArray[1].sort();
+			reOrderArray.sort();
 		} else {
-			reOrderArray[1].sort();
+			reOrderArray.sort();
 			reOrderArray.reverse();
 		}
 		
@@ -156,7 +154,9 @@ $(window).on("load", function(){
 		
         // reorder the stuff now.
         for(var i = 0; i < reOrderArray.length; i++){
-            console.log($("#contents").find("$.rowWrapper[data-rowid=1]"));
+            console.log(reOrderArray.length);
+            //console.log("")
+            $("#content").find(".rowWrapper[data-rowid="+reOrderArray[i][1]+"]").prependTo("#content");
         }
         
 	});
