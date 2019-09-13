@@ -1,8 +1,11 @@
 $(window).on("load", function(){
 	
 	/* GLOBAL VARIABLES */
-	var ORDERBY = "tformNo";
-	var IS_DESC = false;
+	var ORDERBY = "tformno";
+	var IS_DESC = false; // descening.
+    var THRESHOLD_MAX = 10; // max threshold for checking percentage
+    
+    var LOADING_COUNTER = 0;// loading counter
 	
     // ******************************************************************************************
     // SHORTCUTS
@@ -93,16 +96,39 @@ $(window).on("load", function(){
 	$("body").on("focusout", ".newPrice", function(){
 		HideRowFocus();
 	});
+    
+    // Update THRESHOLD_MAX for the % in the footer
+    $("#thresholdMax").html("倍率のしきい値: " + THRESHOLD_MAX + "%");
 	
+    /* ------------------------------------------------------------------------------------------ */
+	// RE-ORDER ROWS BY HEADER
 	// Update the ORDERBY global variable when click on the order by sort icons
+    /* ------------------------------------------------------------------------------------------ */
 	$("body").on("click", ".orderBy", function(){
 		
-		// update the alphabetical order
-		IS_DESC = !IS_DESC;
-		
+        // check if we are already ordering this row.
+        // if we are then just toggle the orders
+        // else reset all rows and set current click to the ORDERBY and reset arrows.
 		if(ORDERBY == $(this).attr("data-id")){
-			$(this).find("i").toggleClass("fa-sort-up fa-sort-down");
-		} else {
+		    
+            // align the arrows with the order
+            if($(this).find("i").hasClass("fa-sort-up")){
+                
+                $(this).find("i").removeClass("fa-sort-up");
+                $(this).find("i").addClass("fa-sort-down");
+                
+                IS_DESC = false; // resets the decending order to match the arrow
+                
+            } else {
+                
+                $(this).find("i").removeClass("fa-sort-down");
+                $(this).find("i").addClass("fa-sort-up");
+                
+                IS_DESC = true; // resets the decending order to match the arrow
+            }
+            
+        } else {
+            
 			// update the icons
 			// remove the old icons
 			$(".orderBy i").removeClass("fa-sort");
@@ -118,9 +144,9 @@ $(window).on("load", function(){
 			// give the new sorter the down arrow
 			$(this).find("i").removeClass("fa-sort");
 			$(this).find("i").addClass("fa-sort-down");
+            IS_DESC = false; // resets the decending order to match the arrow
+            
 		}
-		
-		//console.log("ORDER BY: " + ORDERBY + " ( " + IS_DESC + " )");
 		
 		// reorder array
 		var reOrderArray = [];
@@ -128,20 +154,19 @@ $(window).on("load", function(){
 		// re-order here
 		$(".rowWrapper").each(function(){
 			
-			// take the current order by and search the row for that id.
-			// when found add that html to an array
-			// re-arange the array depending on the IS_DESC to asc or desc
-			// show the new row arrangements
+			//1. take the current order by and search the row for that id.
+			//2.  when found add that html to an array
+			
 			var id = $(this).attr("data-rowid");
 			var val = $(this).find(".rowDetailsCol[data-"+ORDERBY+"]").html();
 			
 			// push into the array
 			reOrderArray.push([val, id]);
-			//reOrderArray.push(val);
 			
 		});
 				
-		// sort the array
+		// sort the array based on the IS_DESC
+        
 		if(IS_DESC) {
 			reOrderArray.sort();
 		} else {
@@ -149,13 +174,9 @@ $(window).on("load", function(){
 			reOrderArray.reverse();
 		}
 		
-		// get each row by
-		console.log(reOrderArray);
-		
-        // reorder the stuff now.
+        // reorder the rows now.
+        // prepend will move the object to the start of the target
         for(var i = 0; i < reOrderArray.length; i++){
-            console.log(reOrderArray.length);
-            //console.log("")
             $("#content").find(".rowWrapper[data-rowid="+reOrderArray[i][1]+"]").prependTo("#content");
         }
         
@@ -175,7 +196,7 @@ $(window).on("load", function(){
 		var contentsText = "";
 		
 		var colorClass = "info";
-		console.log(type);
+        
 		switch(type){
 			case "success":
 				titleText = "<i class='fas fa-thumbs-up'></i> SUCCESS";
@@ -239,7 +260,6 @@ $(window).on("load", function(){
     // hide the row focus
     function HideRowFocus(){
         $(".rowWrapper").css({"opacity":1});
-		//$(this).closest(".rowWrapper").css({"opacity":1});
     }
     /* ------------------------------------------------------------------------------------------ */
 	
@@ -255,8 +275,7 @@ $(window).on("load", function(){
 		var arr = str.toLowerCase().split(" ");
 		// check if more than 3 chars
 		if(str.length >= 3){
-					
-			//$(".rowWrapper").css({"opacity":0.3}); // hide all before the filter
+			
 			$(".rowWrapper").hide();
 			
 			$(".rowWrapper").each(function(){
@@ -320,11 +339,10 @@ $(window).on("load", function(){
 		var newPrice = obj.val();
         
 		var bairitsu = ((newPrice - oldPrice)/oldPrice) * 100;
-        var maxThreshold = 5;
-        var minThreshold = 0
 		
         // check the percentage differnce
-        if(bairitsu >= maxThreshold){
+        // THRESHOLD_MAX can be edited by the user in the settings.
+        if(bairitsu >= THRESHOLD_MAX){
             obj.closest(".dataInputs").find(".bairitsu").css({"background" : "orange", "color": "#FFFFFF"});
         } else if(bairitsu < 0){
             obj.closest(".dataInputs").find(".bairitsu").css({"background" : "crimson", "color" : "#FFFFFF"});

@@ -141,7 +141,7 @@
 			</div>
         -->
 		</div>
-		<div id="footer">footer</div>
+		<div id="footer"><div id="thresholdMax"></div></div>
 		
 		<div id="messageDialogue"><div id="messageDialogueTitle"></div><div id="messageDialogueContents"></div></div>
 		

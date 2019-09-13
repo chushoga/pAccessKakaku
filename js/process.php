@@ -9,7 +9,7 @@ require_once '../master/dbconnect.php'; // CONNECT TO THE DATABASE
 // Load all the data from a single row
 function LoadAll($conn, $FILEMAKER_IMAGE_URL){
         
-	$select = "SELECT * FROM main WHERE maker LIKE '%almar%'";
+	$select = "SELECT * FROM main WHERE maker like '%kaldewei%'";
 	$result = mysqli_query($conn, $select);
 
 	$rows = array();
@@ -17,7 +17,6 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 	if(mysqli_num_rows($result) > 0) {
 		// output now
 		while($row = mysqli_fetch_assoc($result)){
-			
             // Set up the images
 			if($row["thumb"] == ""){
 				$thumb = "";
@@ -31,6 +30,7 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 			$currentPricelistName = "NO PRICE";
 			$currentColor = "#000000";
             $productId = $row["productId"];
+            
             $sth = mysqli_query($conn, "SELECT 
                 sp_plcurrent.plCurrent,
                 sp_plcurrent.sp_disc_rate_id,
@@ -46,20 +46,25 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
              WHERE 
                 sp_plcurrent.productId = '$productId'
              ");
+             
             
             if(mysqli_num_rows($sth) > 0) {
                 // output now
                 while($rowSth = mysqli_fetch_assoc($sth)){
+                    
                     $currentPrice = $rowSth['plCurrent'];
 					$currentPricelistName = $rowSth['sp_disc_rate_memo'];
 					$currentColor = $rowSth['colorId'];
+                    
                 }
             }
+            
             // ------------------------------------------------------------------------------
 			// get the history information if there is any.
 			$historyPrice = 0;
 			$historyPriceListName = "NO HISTORY";
 			$historyColor = "#000000";
+           
 			$historyQuery = mysqli_query($conn, "
 				SELECT 
 					sp_history.plCurrent,
@@ -75,7 +80,7 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 				WHERE
 					sp_history.productId = '$productId'
 			");
-			
+            
 			if(mysqli_num_rows($historyQuery) > 1){
 				// grab the output if ther eis any
 				$x = 0;
@@ -85,14 +90,16 @@ function LoadAll($conn, $FILEMAKER_IMAGE_URL){
 						$historyPrice = $rowHistory['plCurrent'];
 						$historyPriceListName = $rowHistory['sp_disc_rate_memo'];
 						$historyColor = $rowHistory['colorId'];
-					} 
+					}
 				}
 				
 			}
+            
 			// ------------------------------------------------------------------------------
 			// get the temp_table price that match the productId
 			$tempPrice = 0;
 			$tempPrice_priceListTitle = "NO TEMP PRICE";
+            
 			$tempQuery = mysqli_query($conn, "
 				SELECT * FROM
 					temp_pricelist

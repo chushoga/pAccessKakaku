@@ -360,6 +360,14 @@ html, body {
 	height: 15px;
 }
 
+#thresholdMax {
+    line-height: 15px;
+    float: right;
+    margin-right: 10px;
+    color: lightgreen;
+    font-size: 10px;
+}
+
 /* close */
 
 /*
