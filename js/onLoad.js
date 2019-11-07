@@ -434,6 +434,7 @@ $(window).on("load", function(){
 			var flg_tformHaiban = data[i].cancelTform;
 			var flg_makerHaiban = data[i].cancelMaker;
 			var flg_cancelSelling = data[i].cancelSelling;
+            var flg_set = data[i].set;
 			
 			content += "<div class='rowWrapper' data-rowid='"+i+"'>";
 
@@ -494,12 +495,19 @@ $(window).on("load", function(){
                         content += "<div class='statusBox statusBoxHaiban statusBoxOff'>販売終了</div>";
                     }
             
+                    // show if set
+                    if(flg_set != ""){
+                        content += "<div class='statusBox statusBoxSet'>セット品</div>";
+                    } else {
+                        content += "<div class='statusBox statusBoxSet statusBoxOff'>セット品</div>";
+                    }
+            
 
                     content += "</div>"; // end of record status
 			
             content += "\
-					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>\
-					<div style='width: calc(50% - 162px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2' tabindex='-1'></div>\
+					<div style='width: calc(50% - 192px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo1' disabled='disabled'></div>\
+					<div style='width: calc(50% - 192px); height: 100%; float: left; outline: 1px dashed black;'><input style='width: calc(100% - 5px); height: 100%; border: none; padding-left: 5px;' type='text' value='memo2' tabindex='-1'></div>\
             ";
             content += "</div>"; // end of row details Top
 			

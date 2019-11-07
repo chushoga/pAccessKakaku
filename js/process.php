@@ -9,7 +9,7 @@ require_once '../master/dbconnect.php'; // CONNECT TO THE DATABASE
 // Load all the data from a single row
 function LoadAll($conn, $FILEMAKER_IMAGE_URL){
         
-	$select = "SELECT * FROM main WHERE maker like '%kaldewei%'";
+	$select = "SELECT * FROM main WHERE maker like '%almar%'";
 	$result = mysqli_query($conn, $select);
 
 	$rows = array();

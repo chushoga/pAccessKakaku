@@ -294,7 +294,7 @@ html, body {
 /* ----------------------------------- */
 
 .recordStatus {
-	width:  324px;
+	width:  384px;
 	height: 100%;
 	display: flex;
 	justify-content: flex-start;
@@ -333,6 +333,12 @@ html, body {
 
 .statusBoxOther {
     background: green;
+    color: #FFFFFF;
+    float: right;
+}
+
+.statusBoxSet {
+    background: blue;
     color: #FFFFFF;
     float: right;
 }
